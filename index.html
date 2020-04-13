@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://127.0.0.1:80/style.css" type="text/css">
+    <title>Studenti</title>
+</head>
+
+<body>
+    <div class="container p-5">
+        <h1 id="showTime"></h1>
+        <div class="row justify-content-around">
+            <div class="col-md-6">
+                <a href="/addNew" class="btn btn-lg btn-outline-success" style="display:{display3}">Add new
+                    student</a>
+            </div>
+            <div class="col-md-3 pl-5">
+                <button id="turnOffButton" class="btn btn-lg btn-outline-success">Turn off server</button>
+            </div>
+            <div class="col-md-3 pr-5">
+                <label for="turnOfTime">Enter time for shutdown</label>
+                <input type="number" id="turnOffTime" step="1" min="3" max="100" class="form-control" value="5">
+            </div>
+        </div>
+        <div class="row justify-content-start">
+            {myforloop}
+            <div class="col-md-4 mt-3">
+                <div class="card text-center bg-dark text-light">
+                    <div class="card-header">Student</div>
+                    <div class="card-body">
+                        <p>{name}</p>
+                        <p>{surname}</p>
+                        <p>{department}</p>
+                        <p>{index}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-5" style="display:{display1}">
+                                <a href="http://127.0.0.1:80/showStudent/?index={index}"
+                                    class="btn btn-outline-light w-100">View</a>
+                            </div>
+                            <div class="col-md-5" style="display: {display2}">
+                                <a href="/" class="btn btn-outline-light w-100">Back</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="http://127.0.0.1:80/deleteStudent/?index={index}"
+                                    class="btn btn-outline-light w-100">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {endmyforloop}
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $("#turnOffButton").on("click", () => {
+            let data = { time: $("#turnOffTime").val() }
+            if (data.time == "") {
+                data.time = "5";
+            }
+            $.ajax({
+                url: "/turnOffServer",
+                method: "POST",
+                data: data,
+                success: function (response) {
+                    alert(response);
+                    timer = setInterval(CheckForTIme, 10);
+                }
+            });
+        });
+        function CheckForTIme() {
+            $.ajax({
+                url: "/getTimeForShutdown",
+                method: "POST",
+                data: {},
+                success: function (response) {
+                    $("#showTime").html(response);
+                    if (response == "<h1>Server is shuted down</h1>") {
+                        clearInterval(timer);
+                        window.location.href = "127.0.0.1/end";
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

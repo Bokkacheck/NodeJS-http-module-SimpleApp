@@ -1,0 +1,24 @@
+Resenje zadatka je možda malo obimnije, nadam se da to nije problem.
+
+Redosled izvršavanja:
+
+Prvo se pokreće server sa: node server
+
+Nakon toga moguće je otići na localhost (port je 80) odakle je moguće pregledati
+podatke o studentima, pregledati određenog studenta, dodati novog ili obrisati postojećeg.
+Sa web klijenta moguće je i započeti gašenje servera, web klijent nakon toga šalje
+zahtev na svakih 10ms serveru da proveri za koliko sekudni će server biti ugašen.
+
+Server nije stvarno ugašen, samo se ukida mogućnost opsluživanja web klijenta.
+Server može biti uključen korišćenjem konzolne aplikacije (node klijent)
+
+Node klijent se pokreće sa: node client on - za uključivanje servera
+Node klijent može isključiti server sa node client off (server se gasi nakon 5 sekundi)
+				    ili node client off,brSekundi (node client off,10 - primer, gasenje za 10 sekundi)
+
+Server ispisuje na konzoli dogadjaje, i odbrojava ukoliko je pokrenuto gašenje.
+
+Pozdrav,
+Bojan Stojković NRT-4/17.
+
+
